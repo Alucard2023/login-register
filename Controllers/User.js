@@ -35,11 +35,12 @@ exports.login= async(req,res) => {
    try {
     const {email , password} = req.body;
     const foundUser = await User.findOne({email}) ;
+    
 
     if (!foundUser) {
         return res.status(400).send({errors : [{msg : " utilisateur non trouvé !!!"}]})
     }
-    const checkPassword = await bcrypt.compare(password ,foundUser,password )
+    const checkPassword = await bcrypt.compare(password, foundUser.password);
 
     if (!checkPassword) {
         return res.status(400).send({errors : [{msg : " veuillez verifier votre mot de passe !!!"}]})
